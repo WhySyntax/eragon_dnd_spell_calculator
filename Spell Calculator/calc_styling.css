@@ -1,0 +1,19 @@
+body {
+   font-family: Arial, sans-serif;
+   margin: 20px;
+}
+
+.input-container {
+   margin-bottom: 20px;
+}
+
+input, output {
+   margin-top: 10px;
+   margin-bottom: 10px;
+}
+
+.page_side {
+   box-sizing: border-box;
+   width: 49%;
+   float: left;
+}

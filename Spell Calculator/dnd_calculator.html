@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple HTML Site with Text Boxes and Sliders</title>
+    <link rel="stylesheet" href="calc_styling.css">
+</head>
+<body>
+   <div class="page_side">
+      <div class="input-container">
+         <label for="ch_name">Character name:</label>
+         <input type="text" id="ch_name" placeholder="Character Name">
+ 
+         <div class="input-container">
+            <label for="wisdom">Character wisdom:</label>
+            <input type="range" id="wisdom" min="0" max="25" value="0" oninput="update_stat('wisdom', 'ch-wis')">
+            <output for="wisdom" id="ch-wis">0</output>
+        </div>
+         
+         <div class="input-container">
+            <label for="charisma">Character charisma:</label>
+            <input type="range" id="charisma" min="0" max="25" value="0" oninput="update_stat('charisma', 'ch-ch')">
+            <output for="charisma" id="ch-ch">0</output>
+        </div>
+
+        <button onclick="save_character()">Save this Character</button>
+        <button onclick="retrieve_character()">Retreive Character</button>
+        <button onclick="clear_characters()">Clear Local Storage</button>
+     </div>
+ 
+   </div>
+    
+   <div class="page_side">
+      <label for="spell_phrase">Spell Phrase:</label>
+      <input type="text" id="spell_phrase" placeholder="Enter spell here">
+      <button onclick="calc_effect()">Calculate Spell Effects</button><br>
+      <div class="page_side">Spell Damage: <span id="damage">0d0</span><br>Spell Diameter: <span id="aoe">single target</span></div>
+      <div class="page_side">Spell Range: <span id="range">touch range</span><br>Base Cost: <span id="cost">0</span></div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
