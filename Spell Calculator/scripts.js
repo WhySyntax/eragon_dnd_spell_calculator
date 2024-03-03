@@ -1,6 +1,3 @@
-alert("testing global functionality");
-var words = "ee";
-
 window.onload = function() {
    update_stat("wisdom", "ch-wis");
    update_stat("charisma", "ch-ch");
@@ -11,33 +8,46 @@ function update_stat(stat_slider, output_id) {
    document.getElementById(output_id).innerHTML = String(stat).padStart(2, "0");
 }
 
-function retrieve_spell() {
-   var spell = document.getElementById("spell_phrase");
-
+var words = new Map();
+{
    var xhttp = new XMLHttpRequest();
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          console.log("retrieved file correctly");
-         var words = this.responseText;
-         console.log(`File Contents: ${words}`);
-         //do calculations here
+         var raw = this.responseText.split('\n');
+         for (var row of raw.slice(1)) {
+            var curr_word = row.split(',');
+            words.set(curr_word[0], curr_word.slice(1));
+         }
+         console.log(`File Contents: ${raw}`);
       } else {
          console.log(`Look up status code ${this.status}`);
       }
    };
    xhttp.open("POST", "data/all_words.csv", true);
    xhttp.send();
-   // var data = localStorage.getItem('dnd_characters');
-   // if (data) {
-   //    for (const character of (data.split('\n'))) {
-   //       console.log(`${character}`);
-   //    }
-   // } // artifact from when I used this function to make sure that characters were stored properly
 }
 
 function calc_spell_stats() {
-   alert(words);
-   return;
+   var spell = document.getElementById("spell_phrase").innerHTML;
+   var spell_dmg = [0, 0, 0, 0, 0, 0];
+   var spell_cost = 0;
+   var spell_range = 0;
+   var spell_aoe = 0;
+   var psychic = false;
+   for (var word of spell.split(' ')) {
+      //the way we're doing damage in our dnd campaign is a veritable clusterfuck, so I'm not dealing with that right now
+      var word_stats = words.get(word);
+      if (word_stats) {
+         spell_cost += Number(word_stats[0]);
+         spell_range = Math.max(spell_range, Number(word_stats[3]));
+         spell_aoe = Math.max(spell_aoe, Number(word_stats[2]));
+         if (word_stats[4] === 'true') {
+            psychic = true
+         }
+      }
+   }
+   display_spell_stats(spell_dmg, spell_cost, spell_range, spell_aoe);
 }
 
 function display_spell_stats(dmg, cost, range, aoe) {
@@ -47,9 +57,14 @@ function display_spell_stats(dmg, cost, range, aoe) {
    let aoe_disp = document.getElementById("aoe");
    cost_disp.innerHTML = cost;
    if (range != 0) {
-      range_disp.innerHTML = range;
+      range_disp.innerHTML = range + " feet range";
    } else {
       range_disp.innerHTML = "touch range";
+   }
+   if (aoe != 0) {
+      aoe_disp.innerHTML = aoe + " feet diameter";
+   } else {
+      aoe_disp.innerHTML = "single target";
    }
 }
 
@@ -65,7 +80,7 @@ function retrieve_character() {
 
    if (existingCharacters) {
       let characters = existingCharacters.split('\n');
-      for (const character of characters.slice(1)) {
+      for (var character of characters.slice(1)) {
          let ch = character.split(',');
          if (character_name == ch[0]) {
             document.getElementById("wisdom").value = ch[1];
@@ -108,7 +123,7 @@ function save_character() {
 
    if (existingData) {
       let characters = existingData.split('\n');
-      for (const character of characters.slice(1)) {
+      for (var character of characters.slice(1)) {
          if (character_name != character.split(',')[0]) {
             csvData += character + '\n';
          }
