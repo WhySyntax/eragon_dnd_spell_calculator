@@ -1,6 +1,7 @@
 window.onload = function() {
    update_stat("wisdom", "ch-wis");
    update_stat("charisma", "ch-ch");
+   update_stat("upcast", "sp-up");
 }
 
 function update_stat(stat_slider, output_id) {
@@ -29,42 +30,90 @@ var words = new Map();
 }
 
 function calc_spell_stats() {
-   var spell = document.getElementById("spell_phrase").innerHTML;
+   var spell = document.getElementById("spell_phrase").value;
+   console.log(spell);
    var spell_dmg = [0, 0, 0, 0, 0, 0];
    var spell_cost = 0;
    var spell_range = 0;
    var spell_aoe = 0;
    var psychic = false;
-   for (var word of spell.split(' ')) {
-      //the way we're doing damage in our dnd campaign is a veritable clusterfuck, so I'm not dealing with that right now
+
+   let get_dice = faces => {
+      if (faces == 20) {
+         faces = 14;
+      }
+      return (faces - 4) / 2;
+   }
+
+   for (var word of spell.trim().split(' ')) {
       var word_stats = words.get(word);
+      // console.log(word);
       if (word_stats) {
+         // console.log(word_stats);
          spell_cost += Number(word_stats[0]);
          spell_range = Math.max(spell_range, Number(word_stats[3]));
          spell_aoe = Math.max(spell_aoe, Number(word_stats[2]));
-         if (word_stats[4] === 'true') {
-            psychic = true
+         if (word_stats[4] === 'TRUE\r') {
+            psychic = true;
+         }
+
+         //do damage calc
+         let damage_dice = word_stats[1].split('d');
+         let die = get_dice(Number(damage_dice[1]));
+         if (die >= 0) {
+            spell_dmg[die] += damage_dice[0];
          }
       }
    }
-   display_spell_stats(spell_dmg, spell_cost, spell_range, spell_aoe);
+
+   let wis_mods = [1.2, 1, 0.9, 0.8, 0.75, 2/3, 0.5];
+   let wis = Number(document.getElementById('wisdom').value);
+   if (wis < 9) {
+      wis = 9;
+   }
+   wis += Number(wis == 10);
+   console.log(wis + " " + spell_cost);
+   spell_cost *= wis_mods[~~((wis - 9) / 2)];
+
+   // console.log(psychic);
+   display_spell_stats(spell_dmg, spell_cost, spell_range, spell_aoe, psychic);
 }
 
-function display_spell_stats(dmg, cost, range, aoe) {
+function display_spell_stats(dmg, cost, range, aoe, psychic) {
    let dmg_disp = document.getElementById("damage");
    let cost_disp = document.getElementById("cost");
    let range_disp = document.getElementById("range");
    let aoe_disp = document.getElementById("aoe");
    cost_disp.innerHTML = cost;
    if (range != 0) {
-      range_disp.innerHTML = range + " feet range";
+      range_disp.innerHTML = range + " foot range";
    } else {
       range_disp.innerHTML = "touch range";
    }
    if (aoe != 0) {
-      aoe_disp.innerHTML = aoe + " feet diameter";
+      aoe_disp.innerHTML = aoe + " foot diameter";
    } else {
       aoe_disp.innerHTML = "single target";
+   }
+
+   dmg_disp.innerHTML = "";
+   //damage calc
+   let dice = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+   for (let die = 0; die < dice.length; die++) {
+      if (dmg[die] != 0) {
+         if (dmg_disp.innerHTML != "") {
+            dmg_disp.innerHTML += " + ";
+         }
+         dmg_disp.innerHTML += dmg[die] + dice[die];
+      }
+   }
+   
+   if (dmg_disp.innerHTML == "") {
+      dmg_disp.innerHTML = "0d0";
+   }
+
+   if (psychic) {
+      dmg_disp.innerHTML += " + " + (~~(Number(document.getElementById("charisma").value) / 2) - 5);
    }
 }
 

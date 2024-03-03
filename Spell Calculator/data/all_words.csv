@@ -1,1 +1,18 @@
 Word,Cost,Damage,Effect Diameter,Range,Psychic Word
+if,5,0d0,0,0,FALSE
+door,5,0d0,10,20,FALSE
+all,5,0d0,0,0,FALSE
+dart,5,1d4,5,20,FALSE
+arm,5,1d6,10,20,FALSE
+darkness,5,1d8,10,20,TRUE
+water,5,1d4,15,20,FALSE
+of,5,0d0,0,0,FALSE
+arye,5,0d0,0,0,FALSE
+enemy,5,0d0,10,20,FALSE
+heal,5,1d4,0,5,FALSE
+hand,5,1d4,0,5,FALSE
+bad,5,1d4,5,5,FALSE
+ball,5,0,5,10,FALSE
+rat,5,0,5,10,FALSE
+cold,5,1d6,5,10,FALSE
+fire,10,1d6,5,10,FALSE
