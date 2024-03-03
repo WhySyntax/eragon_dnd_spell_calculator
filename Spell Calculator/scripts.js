@@ -1,3 +1,6 @@
+alert("testing global functionality");
+var words = "ee";
+
 window.onload = function() {
    update_stat("wisdom", "ch-wis");
    update_stat("charisma", "ch-ch");
@@ -8,13 +11,46 @@ function update_stat(stat_slider, output_id) {
    document.getElementById(output_id).innerHTML = String(stat).padStart(2, "0");
 }
 
-function calc_effect() {
+function retrieve_spell() {
+   var spell = document.getElementById("spell_phrase");
+
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         console.log("retrieved file correctly");
+         var words = this.responseText;
+         console.log(`File Contents: ${words}`);
+         //do calculations here
+      } else {
+         console.log(`Look up status code ${this.status}`);
+      }
+   };
+   xhttp.open("POST", "data/all_words.csv", true);
+   xhttp.send();
    // var data = localStorage.getItem('dnd_characters');
    // if (data) {
    //    for (const character of (data.split('\n'))) {
    //       console.log(`${character}`);
    //    }
    // } // artifact from when I used this function to make sure that characters were stored properly
+}
+
+function calc_spell_stats() {
+   alert(words);
+   return;
+}
+
+function display_spell_stats(dmg, cost, range, aoe) {
+   let dmg_disp = document.getElementById("damage");
+   let cost_disp = document.getElementById("cost");
+   let range_disp = document.getElementById("range");
+   let aoe_disp = document.getElementById("aoe");
+   cost_disp.innerHTML = cost;
+   if (range != 0) {
+      range_disp.innerHTML = range;
+   } else {
+      range_disp.innerHTML = "touch range";
+   }
 }
 
 function retrieve_character() {

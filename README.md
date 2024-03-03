@@ -1,5 +1,5 @@
 # Eragon DnD Campaign Spell Effect Calculator
-At the start of college, a friend of mine asked if I wanted to join a dnd campaign with him. The campaign was set in the world of Alagaesia, from the Inheritance cycle book series. The two of us worked with the DM to make a compeltely custom magic system based on the magic from the inheritance cycle.<br>
+At the start of college, a friend of mine asked if I wanted to join a dnd campaign with him. The campaign was set in the world of Alagaesia, from the Inheritance cycle book series. The two of us worked with the DM to make a completely custom magic system based on the magic from the inheritance cycle.<br>
 More information about the homebrewed aspect of the magic system can be found [here](https://homebrewery.naturalcrit.com/share/xgBay-APU2Lc).
 ## Issues
 Creating the magic system wasn't too bad, the issue was balancing. As of the moment that I am writing this, we are still balancing the system as we play through sessions. The first 6 sessions of the campaign, two us didn't take damage a single time as we tore our way through enemies.<br>
