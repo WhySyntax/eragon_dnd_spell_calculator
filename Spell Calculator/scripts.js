@@ -30,7 +30,7 @@ var words = new Map();
 }
 
 function calc_spell_stats() {
-   var spell = document.getElementById("spell_phrase").value;
+   var spell = document.getElementById("spell_phrase").value.toLowerCase();
    console.log(spell);
    var spell_dmg = [0, 0, 0, 0, 0, 0];
    var spell_cost = 0;
@@ -61,7 +61,8 @@ function calc_spell_stats() {
          let damage_dice = word_stats[1].split('d');
          let die = get_dice(Number(damage_dice[1]));
          if (die >= 0) {
-            spell_dmg[die] += damage_dice[0];
+            spell_dmg[die] += Number(damage_dice[0]);
+            console.log(`${word_stats[1]}, current damage: ${spell_dmg}`);
          }
       }
    }
@@ -88,7 +89,7 @@ function display_spell_stats(dmg, cost, range, aoe, psychic) {
    let cost_disp = document.getElementById("cost");
    let range_disp = document.getElementById("range");
    let aoe_disp = document.getElementById("aoe");
-   cost_disp.innerHTML = cost;
+   cost_disp.innerHTML = cost + " arye";
    if (range != 0) {
       range_disp.innerHTML = range + " foot range";
    } else {
