@@ -20,7 +20,7 @@ var words = new Map();
             var curr_word = row.split(',');
             words.set(curr_word[0], curr_word.slice(1));
          }
-         console.log(`File Contents: ${raw}`);
+         // console.log(`File Contents: ${raw}`);
       } else {
          console.log(`Look up status code ${this.status}`);
       }
@@ -75,7 +75,7 @@ function calc_spell_stats() {
       wis = 21;
    }
    wis += Number(wis == 10);
-   console.log(wis + " " + spell_cost);
+   // console.log(wis + " " + spell_cost);
    spell_cost *= wis_mods[~~((wis - 9) / 2)];
    let upcast_mods = [1,2,3,5,8,10,15,20,24,27];
    spell_cost *= upcast_mods[document.getElementById('upcast').value];
