@@ -65,16 +65,20 @@ function calc_spell_stats() {
          }
       }
    }
-
+   // cost effects
    let wis_mods = [1.2, 1, 0.9, 0.8, 0.75, 2/3, 0.5];
    let wis = Number(document.getElementById('wisdom').value);
    if (wis < 9) {
       wis = 9;
    }
+   if (wis > 21) {
+      wis = 21;
+   }
    wis += Number(wis == 10);
    console.log(wis + " " + spell_cost);
    spell_cost *= wis_mods[~~((wis - 9) / 2)];
-
+   let upcast_mods = [1,2,3,5,8,10,15,20,24,27];
+   spell_cost *= upcast_mods[document.getElementById('upcast').value];
    // console.log(psychic);
    display_spell_stats(spell_dmg, spell_cost, spell_range, spell_aoe, psychic);
 }

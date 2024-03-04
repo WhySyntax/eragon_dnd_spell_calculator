@@ -36,7 +36,7 @@
       <input type="text" id="spell_phrase" placeholder="Enter spell here">
       <button onclick="calc_spell_stats()">Calculate Spell Effects</button><br>
       <label for="upcast">Upcast</label>
-      <input type="range" id="upcast" min="1" max="10" value="1" oninput="update_stat('upcast', 'sp-up')">
+      <input type="range" id="upcast" min="0" max="9" value="0" oninput="update_stat('upcast', 'sp-up')">
       <output for="upcast" id="sp-up">1</output> <br>
       <div class="page_side">Spell Damage: <span id="damage">0d0</span><br>Spell Diameter: <span id="aoe">single target</span></div>
       <div class="page_side">Spell Range: <span id="range">touch range</span><br>Base Cost: <span id="cost">0</span></div>
